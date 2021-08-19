@@ -1,0 +1,3 @@
+# frozen_string_literal: true
+
+{ comments: render(partial: 'comment_jb', collection: @comments, as: 'comment') }
