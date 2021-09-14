@@ -27,7 +27,7 @@ module SimpleJson
 
     def disable_template_cache
       config[:template_cache_enabled] = false
-      SimpleJsonRenderer.clear_renderes
+      SimpleJsonRenderer.clear_renderers
     end
 
     def template_cache_enabled?
