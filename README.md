@@ -4,7 +4,7 @@ A simple & fast solution for Rails JSON rendering.
 ## Get started
 In Gemfile
 ```ruby
-gem 'simple-json'
+gem 'simple_json'
 ```
 
 In controller
