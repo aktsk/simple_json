@@ -48,7 +48,7 @@ module SimpleJson
         @renderers ||= {}
       end
 
-      def clear_renderes
+      def clear_renderers
         @renderers = {}
         @templates_loaded = false
       end
