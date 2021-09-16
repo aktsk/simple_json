@@ -31,11 +31,11 @@ module SimpleJson
 
       template_name = template_name(options[:template] || action_name)
       if options.key?(:json)
-        proccess_options(options)
+        process_options(options)
         @rendered_format = 'application/json; charset=utf-8'
         SimpleJson.json_module.encode(options[:json])
       elsif simple_renderer.renderer(template_name)
-        proccess_options(options)
+        process_options(options)
         @rendered_format = 'application/json; charset=utf-8'
         render_json_template(template_name, **options)
       else
@@ -43,7 +43,7 @@ module SimpleJson
       end
     end
 
-    def proccess_options(options)
+    def process_options(options)
       head options[:status] if options.key?(:status)
     end
 
