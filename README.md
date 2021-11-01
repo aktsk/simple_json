@@ -241,6 +241,19 @@ Comparison:
             jbuilder:       12.7 i/s - 24.78x  (± 0.00) slower
 ```
 
+## Migrating from Jbuilder
+When migrating from Jbuilder, you can include `Migratable` in controller for migrating mode.
+```
+include SimpleJson::SimpleJsonRenderable
+include SimpleJson::Migratable
+```
+
+In migrating mode
+- Comparision will be performed for simple_json and ActionView render(Jbuilder) result.
+- simple_json partials not found will use Jbuilder partial as an alternative.
+
+Note that render will be performed twice, so using it in production mode is not recommended.
+
 ## Contributing
 
 Pull requests are welcome on GitHub at https://github.com/aktsk/simple_json.
