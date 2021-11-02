@@ -47,7 +47,7 @@ Have fun!
 This project is built on work of [jb](https://github.com/amatsuda/jb).
 
 ## Template Syntax
-SimpleJson templates are simply lambda objects that return data(Hashs or Arrays) for json.
+SimpleJson templates are simply lambda objects that return data(Hashes or Arrays) for json.
 ```ruby
 -> {
   {
@@ -110,7 +110,7 @@ SimpleJson.cache_key_prefix = "MY_PREFIX"
 
 ## configurations
 Load all templates on boot. (For production)
-Tempaltes loaded will not load again, so it is not recommended in development environment.
+Templates loaded will not load again, so it is not recommended in development environment.
 ```ruby
 # config/environments/production.rb
 SimpleJson.enable_template_cache
