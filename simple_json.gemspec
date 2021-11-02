@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'oj'
+  spec.add_dependency 'oj', '~> 3.13'
 
   spec.add_development_dependency 'action_args'
   spec.add_development_dependency 'bundler'
