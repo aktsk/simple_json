@@ -82,14 +82,14 @@ Use `partial!` method to call another template in template. Note that path is al
 }
 ```
 
-Cache helpers of jbuilder is similar.
+Cache helpers of simple_json is similar to jbuilder.
 ```ruby
 cache! key, options do
   data_to_cache
 end
 ```
 
-Cache helpers uses `Rails.cache` to cache, so Multiple key, expiration is available. Make sure `perform_caching` is enabled.
+Cache helpers uses `Rails.cache` to cache, so array keys, expirations are available. Make sure `perform_caching` is enabled.
 ```ruby
 cache! [key1, key2], expires_in: 10.minutes do
   data_to_cache
@@ -108,7 +108,7 @@ You can set key_prefix for caching like this
 SimpleJson.cache_key_prefix = "MY_PREFIX"
 ```
 
-## configurations
+## Configurations
 Load all templates on boot. (For production)
 Templates loaded will not load again, so it is not recommended in development environment.
 ```ruby
