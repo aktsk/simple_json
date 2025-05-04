@@ -31,5 +31,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'test-unit-rails'
   spec.add_development_dependency 'mutex_m'
 
-  spec.required_ruby_version = '>= 2.5.0'
+  spec.required_ruby_version = '>= 3.2.0'
 end
