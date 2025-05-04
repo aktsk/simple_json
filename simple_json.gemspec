@@ -24,11 +24,12 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'action_args'
   spec.add_development_dependency 'bundler'
-  spec.add_development_dependency 'byebug'
-  spec.add_development_dependency 'rails'
+  spec.add_development_dependency 'debug'
+  spec.add_development_dependency 'rails', '~> 8.0'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'selenium-webdriver'
   spec.add_development_dependency 'test-unit-rails'
+  spec.add_development_dependency 'mutex_m'
 
   spec.required_ruby_version = '>= 2.5.0'
 end
