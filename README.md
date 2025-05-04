@@ -1,13 +1,17 @@
 # SimpleJson
+
 A simple & fast solution for Rails JSON rendering.
 
 ## Get started
+
 In Gemfile
+
 ```ruby
 gem 'simple_json'
 ```
 
 In controller
+
 ```ruby
 class ApplicationController < ActionController::Base
   include SimpleJson::SimpleJsonRenderable
@@ -44,10 +48,13 @@ That's all!
 Have fun!
 
 ## Special thanks
+
 This project is built on work of [jb](https://github.com/amatsuda/jb).
 
 ## Template Syntax
+
 SimpleJson templates are simply lambda objects that return data(Hashes or Arrays) for json.
+
 ```ruby
 -> {
   {
@@ -55,7 +62,9 @@ SimpleJson templates are simply lambda objects that return data(Hashes or Arrays
   }
 }
 ```
+
 When no parameters specified, `-> {` and `}` can be omitted.
+
 ```ruby
 {
   key: @value,
@@ -83,6 +92,7 @@ Use `partial!` method to call another template in template. Note that path is al
 ```
 
 Cache helpers of simple_json is similar to jbuilder.
+
 ```ruby
 cache! key, options do
   data_to_cache
@@ -90,6 +100,7 @@ end
 ```
 
 Cache helpers uses `Rails.cache` to cache, so array keys, expirations are available. Make sure `perform_caching` is enabled.
+
 ```ruby
 cache! [key1, key2], expires_in: 10.minutes do
   data_to_cache
@@ -97,6 +108,7 @@ end
 ```
 
 `cache_if!` is also available
+
 ```ruby
 cache_if! boolean, key1, options do
   data_to_cache
@@ -104,41 +116,51 @@ end
 ```
 
 You can set key_prefix for caching like this
+
 ```ruby
 SimpleJson.cache_key_prefix = "MY_PREFIX"
 ```
 
 ## Configurations
+
 Load all templates on boot. (For production)
 Templates loaded will not load again, so it is not recommended in development environment.
+
 ```ruby
 # config/environments/production.rb
 SimpleJson.enable_template_cache
 ```
 
 The default path for templates is `app/views`, you can change it by
+
 ```ruby
 SimpleJson.template_paths.append("app/simple_jsons")
 # or
 SimpleJson.template_paths=["app/views", "app/simple_jsons"]
 ```
+
 Note that these paths should not be eager loaded cause using .rb as suffix.
 
 SimpleJson uses Oj as json serializer by default. Modules with `#encode` and `#decode` method can be used here.
+
 ```ruby
 SimpleJson.json_module = ActiveSupport::JSON
 ```
 
 ## The Generator
+
 SimpleJson extends the default Rails scaffold generator and adds some simple_json templates. If you don't need them, please configure like so.
+
 ```rb
 Rails.application.config.generators.simple_json false
 ```
 
 ## Benchmarks
+
 Here're the results of a benchmark (which you can find [here](https://github.com/aktsk/simple_json/blob/master/test/dummy_app/app/controllers/benchmarks_controller.rb) in this repo) rendering a collection to JSON.
 
 ### RAILS_ENV=development
+
 ```
 % ./bin/benchmark.sh
 
@@ -189,7 +211,9 @@ Comparison:
                   jb:      106.1 i/s - 2.56x  (± 0.00) slower
             jbuilder:       13.0 i/s - 20.88x  (± 0.00) slower
 ```
+
 ### RAILS_ENV=production
+
 ```
 % RAILS_ENV=production ./bin/benchmark.sh
 
@@ -242,13 +266,16 @@ Comparison:
 ```
 
 ## Migrating from Jbuilder
+
 When migrating from Jbuilder, you can include `Migratable` in controller for migrating mode.
+
 ```
 include SimpleJson::SimpleJsonRenderable
 include SimpleJson::Migratable
 ```
 
 In migrating mode
+
 - Comparision will be performed for simple_json and ActionView render(Jbuilder) result.
 - simple_json partials not found will use Jbuilder partial as an alternative.
 
