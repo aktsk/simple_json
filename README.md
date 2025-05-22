@@ -141,10 +141,27 @@ SimpleJson.template_paths=["app/views", "app/simple_jsons"]
 
 Note that these paths should not be eager loaded cause using .rb as suffix.
 
-SimpleJson uses Oj as json serializer by default. Modules with `#encode` and `#decode` method can be used here.
+SimpleJson uses ActiveSupport::JSON as the default JSON serializer. If you want to change to a module that has `#encode` and `#decode` methods, such as the Oj gem, you can do so as follows.
 
 ```ruby
-SimpleJson.json_module = ActiveSupport::JSON
+
+# define Custom Json class
+# ex. config/initializers/simple_json/json.rb
+module SimpleJson
+  module Json
+    class Oj
+      def self.encode(json)
+        ::Oj.dump(json, mode: :rails)
+      end
+
+      def self.decode(json_string)
+        ::Oj.load(json_string, mode: :rails)
+      end
+    end
+  end
+end
+
+SimpleJson.json_module = SimpleJson::Json::Oj
 ```
 
 ## The Generator
@@ -283,7 +300,7 @@ Note that render will be performed twice, so using it in production mode is not 
 
 ## Contributing
 
-Pull requests are welcome on GitHub at https://github.com/aktsk/simple_json.
+Pull requests are welcome on GitHub at <https://github.com/aktsk/simple_json>.
 
 ## License
 

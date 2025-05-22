@@ -8,14 +8,13 @@ require 'simple_json/simple_json_template'
 
 require 'simple_json/migratable'
 require 'simple_json/simple_json_renderer_for_migration'
-require 'simple_json/json'
 
 module SimpleJson
   @config = {
     cache_enabled: false,
     template_paths: ['app/views'],
     cache_key_prefix: 'simple_json/views',
-    default_json_module: Json::Oj
+    default_json_module: ActiveSupport::JSON
   }
 
   class << self
