@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   if Rails::VERSION::MAJOR >= 5
     namespace :api do
       resources :posts, only: :show
+      get '/renamed_posts/:id', to: 'posts#renamed_show'
     end
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

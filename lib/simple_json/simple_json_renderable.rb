@@ -29,7 +29,7 @@ module SimpleJson
       # use super when any of [:body, :plain, :html] exist in options
       return super if self.class::RENDER_FORMATS_IN_PRIORITY.any? { |key| options.key? key }
 
-      template_name = template_name(options[:template] || action_name)
+      template_name = template_name(options[:template] || options[:action] || action_name)
       if options.key?(:json)
         process_options(options)
         @rendered_format = 'application/json; charset=utf-8'

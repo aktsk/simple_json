@@ -8,6 +8,12 @@ if Rails::VERSION::MAJOR >= 5
       def show(id)
         @post = Post.find id
       end
+
+      def renamed_show(id)
+        @post = Post.find id
+
+        render :show
+      end
     end
   end
 end
