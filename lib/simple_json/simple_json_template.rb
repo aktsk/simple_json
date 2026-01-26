@@ -7,8 +7,8 @@ module SimpleJson
       @source = File.read(path)
     end
 
-    def renderer
-      @renderer ||= eval(code, TOPLEVEL_BINDING, @path) # rubocop:disable Security/Eval
+    def lambda
+      @lambda ||= eval(code, TOPLEVEL_BINDING, @path) # rubocop:disable Security/Eval
     end
 
     def code

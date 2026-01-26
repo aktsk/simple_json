@@ -52,7 +52,7 @@ module SimpleJson
         @template_num += 1
         method_name = :"template_#{@template_num}"
         render_methods[template_path] = method_name
-        define_method(method_name, &SimpleJsonTemplate.new(file_path).renderer)
+        define_method(method_name, &SimpleJsonTemplate.new(file_path).lambda)
 
         return method_name
       end
