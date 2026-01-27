@@ -11,7 +11,7 @@ require 'simple_json/simple_json_renderer_for_migration'
 
 module SimpleJson
   @config = {
-    cache_enabled: false,
+    template_cache_enabled: false,
     template_paths: ['app/views'],
     cache_key_prefix: 'simple_json/views',
     default_json_module: ActiveSupport::JSON
