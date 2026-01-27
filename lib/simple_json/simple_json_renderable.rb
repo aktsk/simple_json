@@ -54,9 +54,7 @@ module SimpleJson
     end
 
     def simple_renderer
-      @simple_renderer ||= SimpleJsonRenderer.new(self).tap do |r|
-        r.extend(_helpers) if respond_to?(:_helpers)
-      end
+      @simple_renderer ||= self.class.simple_json_renderer_class.new(self)
     end
 
     def render_json_template(template_name, **_options)
@@ -67,6 +65,14 @@ module SimpleJson
     included do
       if SimpleJson.template_cache_enabled? && !SimpleJsonRenderer.templates_loaded?
         SimpleJsonRenderer.load_all_templates!
+      end
+
+      def self.simple_json_renderer_class
+        @simple_json_renderer_class ||= begin
+          klass = Class.new(SimpleJsonRenderer)
+          klass.include(_helpers) if method_defined?(:_helpers)
+          klass
+        end
       end
     end
 
