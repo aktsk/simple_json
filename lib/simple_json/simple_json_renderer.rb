@@ -39,9 +39,7 @@ module SimpleJson
         SimpleJson.template_paths.each do |path|
           file_path = Rails.root.join("#{path}/#{template_path}.simple_json.rb").to_path
 
-          if File.exist?(file_path)
-            return define_template_method(template_path, file_path)
-          end
+          return define_template_method(template_path, file_path) if File.exist?(file_path)
         end
 
         nil
@@ -52,9 +50,7 @@ module SimpleJson
         @template_num += 1
         method_name = :"template_#{@template_num}"
         render_methods[template_path] = method_name
-        define_method(method_name, &SimpleJsonTemplate.new(file_path).lambda)
-
-        return method_name
+        SimpleJsonTemplate.new(file_path).define_to_class(self, method_name)
       end
 
       def render_methods
