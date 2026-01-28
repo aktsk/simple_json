@@ -60,7 +60,7 @@ module SimpleJson
     end
 
     def renderer(template_path)
-      renderers[template_path] || self.class.load_template(template_path).tap do |renderer|
+      renderers[template_path] || SimpleJson::SimpleJsonRenderer.load_template(template_path).tap do |renderer|
         renderers[template_path] = renderer
       end
     end
