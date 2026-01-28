@@ -20,7 +20,7 @@ module SimpleJson
           template_files = Rails.root.glob("#{path}/**/*.simple_json.rb")
           template_files.each do |file_path|
             template_path = file_path.relative_path_from(Rails.root.join(path)).to_path.delete_suffix('.simple_json.rb')
-            @renderers[template_path] = SimpleJsonTemplate.new(file_path.to_path).renderer
+            define_template_method(template_path, file_path.to_path)
           end
         end
         @templates_loaded = true
@@ -29,7 +29,7 @@ module SimpleJson
       def load_template(template_path)
         if SimpleJson.template_cache_enabled?
           load_all_templates! unless templates_loaded?
-          renderers[template_path]
+          render_methods[template_path]
         else
           load_template_from_file(template_path)
         end
@@ -38,18 +38,36 @@ module SimpleJson
       def load_template_from_file(template_path)
         SimpleJson.template_paths.each do |path|
           file_path = Rails.root.join("#{path}/#{template_path}.simple_json.rb").to_path
-          return SimpleJsonTemplate.new(file_path).renderer if File.exist?(file_path)
+
+          return define_template_method(template_path, file_path) if File.exist?(file_path)
         end
 
         nil
       end
 
-      def renderers
-        @renderers ||= {}
+      def define_template_method(template_path, file_path)
+        template = SimpleJsonTemplate.new(file_path)
+        code_hash = template.code.hash
+
+        render_methods[template_path] = render_methods_cache.fetch(code_hash) do
+          @template_num ||= 0
+          @template_num += 1
+          method_name = :"template_#{@template_num}"
+          template.define_to_class(self, method_name)
+          render_methods_cache[code_hash] = method_name
+        end
+      end
+
+      def render_methods
+        @render_methods ||= {}
+      end
+
+      def render_methods_cache
+        @render_methods_cache ||= {}
       end
 
       def clear_renderers
-        @renderers = {}
+        @render_methods = {}
         @templates_loaded = false
       end
     end
@@ -70,10 +88,11 @@ module SimpleJson
     end
 
     def render(template_name, **params)
+      method_name = renderer(template_name)
       if !params.empty?
-        instance_exec(**params, &renderer(template_name))
+        send(method_name, **params)
       else
-        instance_exec(&renderer(template_name))
+        send(method_name)
       end
     end
 

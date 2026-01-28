@@ -53,7 +53,7 @@ This project is built on work of [jb](https://github.com/amatsuda/jb).
 
 ## Template Syntax
 
-SimpleJson templates are simply lambda objects that return data(Hashes or Arrays) for json.
+SimpleJson templates should be written in Ruby lambda format. The template code is converted into a method and then invoked to produce data (Hashes or Arrays) for JSON.
 
 ```ruby
 -> {
