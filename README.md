@@ -176,110 +176,80 @@ Rails.application.config.generators.simple_json false
 
 Here're the results of a benchmark (which you can find [here](https://github.com/aktsk/simple_json/blob/master/test/dummy_app/app/controllers/benchmarks_controller.rb) in this repo) rendering a collection to JSON.
 
-### RAILS_ENV=development
-
 ```
 % ./bin/benchmark.sh
 
-* Rendering 10 partials via render_partial
+SimpleJson Benchmark
+ruby: 4.0.1
+rails: 8.1.1
+json: 2.15.2
+oj: 3.16.11
+----------------------
+
+* Rendering 10 partials via render_to_string
+ruby 4.0.1 (2026-01-13 revision e04267a14b) +PRISM [arm64-darwin24]
 Warming up --------------------------------------
-                  jb   257.000  i/100ms
-            jbuilder   108.000  i/100ms
-         simple_json     2.039k i/100ms
+                  jb    23.000 i/100ms
+            jbuilder    30.000 i/100ms
+     simple_json(oj)    40.000 i/100ms
+simple_json(AS::json)
+                        46.000 i/100ms
 Calculating -------------------------------------
-                  jb      2.611k (± 7.1%) i/s -     13.107k in   5.046110s
-            jbuilder      1.084k (± 3.5%) i/s -      5.508k in   5.088845s
-         simple_json     20.725k (± 4.4%) i/s -    103.989k in   5.026914s
+                  jb    298.518 (±23.4%) i/s    (3.35 ms/i) -      1.426k in   5.019370s
+            jbuilder    255.925 (± 4.3%) i/s    (3.91 ms/i) -      1.290k in   5.052973s
+     simple_json(oj)    270.192 (± 3.7%) i/s    (3.70 ms/i) -      1.360k in   5.039635s
+simple_json(AS::json)
+                        297.476 (±10.1%) i/s    (3.36 ms/i) -      1.518k in   5.145803s
 
 Comparison:
-         simple_json:    20725.5 i/s
-                  jb:     2610.5 i/s - 7.94x  (± 0.00) slower
-            jbuilder:     1083.8 i/s - 19.12x  (± 0.00) slower
+                  jb:      298.5 i/s
+simple_json(AS::json):      297.5 i/s - same-ish: difference falls within error
+     simple_json(oj):      270.2 i/s - same-ish: difference falls within error
+            jbuilder:      255.9 i/s - same-ish: difference falls within error
 
 
-* Rendering 100 partials via render_partial
+* Rendering 100 partials via render_to_string
+ruby 4.0.1 (2026-01-13 revision e04267a14b) +PRISM [arm64-darwin24]
 Warming up --------------------------------------
-                  jb    88.000  i/100ms
-            jbuilder    14.000  i/100ms
-         simple_json   290.000  i/100ms
+                  jb    19.000 i/100ms
+            jbuilder    14.000 i/100ms
+     simple_json(oj)    15.000 i/100ms
+simple_json(AS::json)
+                        26.000 i/100ms
 Calculating -------------------------------------
-                  jb    928.202  (± 5.0%) i/s -      4.664k in   5.037314s
-            jbuilder    137.980  (± 6.5%) i/s -    700.000  in   5.094658s
-         simple_json      2.931k (± 5.2%) i/s -     14.790k in   5.060707s
+                  jb    186.051 (±12.9%) i/s    (5.37 ms/i) -    912.000 in   5.075117s
+            jbuilder    144.279 (± 2.1%) i/s    (6.93 ms/i) -    728.000 in   5.048538s
+     simple_json(oj)    159.254 (± 1.9%) i/s    (6.28 ms/i) -    810.000 in   5.088178s
+simple_json(AS::json)
+                        249.690 (± 6.0%) i/s    (4.00 ms/i) -      1.248k in   5.017042s
 
 Comparison:
-         simple_json:     2931.1 i/s
-                  jb:      928.2 i/s - 3.16x  (± 0.00) slower
-            jbuilder:      138.0 i/s - 21.24x  (± 0.00) slower
+simple_json(AS::json):      249.7 i/s
+                  jb:      186.1 i/s - 1.34x  slower
+     simple_json(oj):      159.3 i/s - 1.57x  slower
+            jbuilder:      144.3 i/s - 1.73x  slower
 
 
-* Rendering 1000 partials via render_partial
+* Rendering 1000 partials via render_to_string
+ruby 4.0.1 (2026-01-13 revision e04267a14b) +PRISM [arm64-darwin24]
 Warming up --------------------------------------
-                  jb    11.000  i/100ms
-            jbuilder     1.000  i/100ms
-         simple_json    29.000  i/100ms
+                  jb     4.000 i/100ms
+            jbuilder     2.000 i/100ms
+     simple_json(oj)     2.000 i/100ms
+simple_json(AS::json)
+                        10.000 i/100ms
 Calculating -------------------------------------
-                  jb    106.150  (± 5.7%) i/s -    539.000  in   5.094255s
-            jbuilder     13.012  (± 7.7%) i/s -     65.000  in   5.054016s
-         simple_json    271.683  (± 5.2%) i/s -      1.363k in   5.030646s
+                  jb     48.691 (± 2.1%) i/s   (20.54 ms/i) -    244.000 in   5.013815s
+            jbuilder     27.930 (± 3.6%) i/s   (35.80 ms/i) -    140.000 in   5.016897s
+     simple_json(oj)     29.083 (± 6.9%) i/s   (34.38 ms/i) -    146.000 in   5.039076s
+simple_json(AS::json)
+                         99.792 (± 7.0%) i/s   (10.02 ms/i) -    500.000 in   5.037716s
 
 Comparison:
-         simple_json:      271.7 i/s
-                  jb:      106.1 i/s - 2.56x  (± 0.00) slower
-            jbuilder:       13.0 i/s - 20.88x  (± 0.00) slower
-```
-
-### RAILS_ENV=production
-
-```
-% RAILS_ENV=production ./bin/benchmark.sh
-
-* Rendering 10 partials via render_partial
-Warming up --------------------------------------
-                  jb   246.000  i/100ms
-            jbuilder    97.000  i/100ms
-         simple_json     1.957k i/100ms
-Calculating -------------------------------------
-                  jb      2.611k (± 4.1%) i/s -     13.038k in   5.002304s
-            jbuilder    972.031  (± 4.7%) i/s -      4.850k in   5.001200s
-         simple_json     20.383k (± 3.8%) i/s -    101.764k in   4.999989s
-
-Comparison:
-         simple_json:    20382.8 i/s
-                  jb:     2611.3 i/s - 7.81x  (± 0.00) slower
-            jbuilder:      972.0 i/s - 20.97x  (± 0.00) slower
-
-
-* Rendering 100 partials via render_partial
-Warming up --------------------------------------
-                  jb    90.000  i/100ms
-            jbuilder    11.000  i/100ms
-         simple_json   280.000  i/100ms
-Calculating -------------------------------------
-                  jb    883.446  (± 4.8%) i/s -      4.410k in   5.003438s
-            jbuilder    119.932  (± 8.3%) i/s -    605.000  in   5.085382s
-         simple_json      2.886k (± 4.2%) i/s -     14.560k in   5.054327s
-
-Comparison:
-         simple_json:     2885.7 i/s
-                  jb:      883.4 i/s - 3.27x  (± 0.00) slower
-            jbuilder:      119.9 i/s - 24.06x  (± 0.00) slower
-
-
-* Rendering 1000 partials via render_partial
-Warming up --------------------------------------
-                  jb    12.000  i/100ms
-            jbuilder     1.000  i/100ms
-         simple_json    32.000  i/100ms
-Calculating -------------------------------------
-                  jb    124.627  (± 4.8%) i/s -    624.000  in   5.018515s
-            jbuilder     12.710  (± 7.9%) i/s -     64.000  in   5.073018s
-         simple_json    314.896  (± 3.2%) i/s -      1.600k in   5.086509s
-
-Comparison:
-         simple_json:      314.9 i/s
-                  jb:      124.6 i/s - 2.53x  (± 0.00) slower
-            jbuilder:       12.7 i/s - 24.78x  (± 0.00) slower
+simple_json(AS::json):       99.8 i/s
+                  jb:       48.7 i/s - 2.05x  slower
+     simple_json(oj):       29.1 i/s - 3.43x  slower
+            jbuilder:       27.9 i/s - 3.57x  slower
 ```
 
 ## Migrating from Jbuilder
