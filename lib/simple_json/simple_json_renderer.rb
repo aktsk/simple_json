@@ -46,15 +46,24 @@ module SimpleJson
       end
 
       def define_template_method(template_path, file_path)
-        @template_num ||= 0
-        @template_num += 1
-        method_name = :"template_#{@template_num}"
-        render_methods[template_path] = method_name
-        SimpleJsonTemplate.new(file_path).define_to_class(self, method_name)
+        template = SimpleJsonTemplate.new(file_path)
+        code_hash = template.code.hash
+
+        render_methods[template_path] = render_methods_cache.fetch(code_hash) do
+          @template_num ||= 0
+          @template_num += 1
+          method_name = :"template_#{@template_num}"
+          template.define_to_class(self, method_name)
+          render_methods_cache[code_hash] = method_name
+        end
       end
 
       def render_methods
         @render_methods ||= {}
+      end
+
+      def render_methods_cache
+        @render_methods_cache ||= {}
       end
 
       def clear_renderers

@@ -14,11 +14,11 @@ module SimpleJson
       method_name
     end
 
-    private
-
     def code
       @code ||= lambda_stringify(@source)
     end
+
+    private
 
     def lambda_stringify(source)
       return source if source.match?(/^(?:\s*(?:#.*?)?\n)*\s*->/)
