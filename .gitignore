@@ -9,3 +9,5 @@ gemfiles/*.lock
 /spec/reports/
 /tmp/
 /test/dummy_app/log/*
+/test/dummy_app/tmp/*
+/vendor/bundle

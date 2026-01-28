@@ -1,0 +1,18 @@
+# frozen_string_literal: true
+
+lengths = @comments.map { |comment| comment.body.length }
+avg_length = lengths.empty? ? 0.0 : (lengths.sum.to_f / lengths.size).round(2)
+
+{
+  meta: {
+    total_comments: @comments.size,
+    longest_comment_length: lengths.max || 0,
+    average_comment_length: avg_length,
+    tags: %w[bench simple json],
+    flags: {
+      has_many: @comments.size > 500,
+      empty: @comments.empty?
+    }
+  },
+  comments: render(partial: 'comment_jb', collection: @comments, as: 'comment')
+}

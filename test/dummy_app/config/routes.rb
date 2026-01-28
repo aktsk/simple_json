@@ -15,7 +15,14 @@ Rails.application.routes.draw do
   resources :posts_with_cache, only: :show
   resources :posts_with_multiple_view_paths, only: :show
 
-  resources :benchmarks, only: :index
+  resources :benchmarks, only: [] do
+    collection do
+      get :jb, defaults: { format: :json }
+      get :jbuilder, defaults: { format: :json }
+      get :simple_json_oj, defaults: { format: :json }
+      get :simple_json_as_json, defaults: { format: :json }
+    end
+  end
 
   if Rails::VERSION::MAJOR >= 5
     namespace :api do
